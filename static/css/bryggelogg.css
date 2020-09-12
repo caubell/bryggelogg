@@ -1,0 +1,42 @@
+#id_bryggnr, #id_navn, #id_dato, #id_og, #id_fg, #id_abv, #id_effektivitet, #id_kommentar {
+    width: 100%;
+}
+
+#id_malt_1, #id_malt_2, #id_malt_3, #id_malt_4, #id_malt_5, #id_humle_1, #id_humle_2, #id_humle_3, #id_humle_4, #id_humle_5 {
+    width: 100%;
+}
+
+#id_m_mengde_1, #id_m_mengde_2, #id_m_mengde_3, #id_m_mengde_4, #id_m_mengde_5, #id_h_mengde_1, #id_h_mengde_2, #id_h_mengde_3, #id_h_mengde_4, #id_h_mengde_5 {
+    width: 100%;
+}
+
+.asteriskField {
+    display: none;
+}
+
+.dashboar_container {
+  overflow: auto;
+}
+
+#chart1, #chart2 {
+  height: 300px;
+}
+
+.container {
+  overflow: hidden;
+}
+
+.venstre {
+  display: inline;
+  float: left;
+}
+
+.høyre {
+  display: inline;
+  float: right;
+}
+
+#nt1, #nt2, #nt3, #nt4 {
+  height: 150px;
+  background: gray;
+}
