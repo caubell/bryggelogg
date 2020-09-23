@@ -8,26 +8,26 @@
     <canvas id="myChart"></canvas>
   </div>
 
-  <div class="venstre col-md-3 px-2 pb-2">
+  <div class="venstre col-md-3 pr-0 pb-2">
     <div class="nt shadow-sm rounded border">
       <h1 class = "midtstilt">{{ avg_liter }}</h1>
       <p class = "midtstilt_horisontalt">Gjennomsnittlig sluttvolum</p>
     </div>
   </div>
 
-  <div class="venstre col-md-3 px-2 pb-2">
+  <div class="venstre col-md-3 pr-0 pb-2">
     <div class="nt shadow-sm rounded border">
       <h1 class = "midtstilt">2</h1>
     </div>
   </div>
 
-    <div class="venstre col-md-3 px-2 pt-2">
+    <div class="venstre col-md-3 pr-0 pt-2">
       <div class="nt shadow-sm rounded border">
         <h1 class = "midtstilt">3</h1>
       </div>
     </div>
 
-    <div class="venstre col-md-3 px-2 pt-2">
+    <div class="venstre col-md-3 pr-0 pt-2">
       <div class="nt shadow-sm rounded border">
         <h1 class = "midtstilt">4</h1>
       </div>
@@ -72,11 +72,17 @@ var myChart = new Chart(ctx, {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
+            xAxes: [{
+              gridLines: {
+                display:false
+              }}],
             yAxes: [{
+              gridLines: {
+                display:false
+              }}],
                 ticks: {
                     beginAtZero: true
                 }
-            }]
         }
     }
 })
@@ -111,11 +117,17 @@ var myChart2 = new Chart(ctx2, {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
+            xAxes: [{
+              gridLines: {
+                display:false
+              }}],
             yAxes: [{
+              gridLines: {
+                display:false
+              }}],
                 ticks: {
                     beginAtZero: true
                 }
-            }]
         }
     }
 });

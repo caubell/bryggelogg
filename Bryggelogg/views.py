@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.views.generic import TemplateView,DetailView,FormView
 from Bryggelogg.models import Bryggelogg
 from Bryggelogg.forms import BryggeloggForm
 from django.contrib.auth import get_user_model
@@ -33,7 +34,7 @@ def bryggelogg_view(request):
 
     return render(request, 'Bryggelogg/bryggelogg.html', {'form': form})
 
-class dashboard_view(APIView):
+class dashboard_view(TemplateView):
     authentication_classes = []
     permission_classes = []
 
@@ -66,7 +67,7 @@ def get_data(request, *args, **kwargs):
     }
     return JsonResponse(data)
 
-class ChartData(APIView):
+class ChartData(TemplateView):
     authentication_classes = []
     permission_classes = []
 
