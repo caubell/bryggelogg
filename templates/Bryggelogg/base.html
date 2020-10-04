@@ -34,6 +34,7 @@
             <a class="nav-item nav-link {% if url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Hjem <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link {% if url_name == 'bryggelogg' %}active{% endif %}" href="{% url 'Bryggelogg:bryggelogg' %}">Loggfør brygging<span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'Bryggelogg:dashboard' %}">Dashboard<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'Bryggelogg:recipes-create' %}">Create recipe<span class="sr-only">(current)</span></a>
             {% endwith %}
           </div>
         </div>

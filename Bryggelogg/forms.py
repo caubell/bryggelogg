@@ -1,15 +1,149 @@
+# General Django imports
 from django import forms
-from Bryggelogg.models import Bryggelogg
+
+# Model imports
+from Bryggelogg.models import Bryggelogg, Recipes, Malt, Hop
+
+# Crispy form specific imports
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column
+from crispy_forms.layout import Layout, Field, Fieldset, Div, HTML, ButtonHolder, Submit, Row, Column
+import re
+
+
+# Formset specific imports
+from django.forms import ModelForm, inlineformset_factory
+from .custom_layout_object import *
+
+class RecipesForm(ModelForm):
+    class Meta():
+        model = Recipes
+        exclude = ()
+        labels = {'name': '', 'type': '', 'date': '', 'og': '', 'fg': '', 'abv': '', 'ibu': '', 'efficiency': '',
+                  'batch_volume': '', 'mash_time': '', 'mash_temp': '', 'boil_time': '', 'boil_volume': '',
+                  'fermenter_volume': '',  'yeast': '', 'link': '', 'malt': '', 'amount': ''}
+        fields = '__all__'
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Name'}),
+            'type': forms.TextInput(attrs={'placeholder': 'Type'}),
+            'date': forms.TextInput(attrs={'placeholder': 'Date'}),
+            'og': forms.TextInput(attrs={'placeholder': 'OG'}),
+            'fg': forms.TextInput(attrs={'placeholder': 'FG'}),
+            'abv': forms.TextInput(attrs={'placeholder': 'ABV'}),
+            'ibu': forms.TextInput(attrs={'placeholder': 'IBU'}),
+            'efficiency': forms.TextInput(attrs={'placeholder': 'Efficiency'}),
+            'batch_volume': forms.TextInput(attrs={'placeholder': 'Batch Size'}),
+            'mash_time': forms.TextInput(attrs={'placeholder': 'Mashing Time (min)'}),
+            'mash_temp': forms.TextInput(attrs={'placeholder': 'Mash Temperature'}),
+            'boil_time': forms.TextInput(attrs={'placeholder': 'Boiling Time (min)'}),
+            'boil_volume': forms.TextInput(attrs={'placeholder': 'Boil Volume'}),
+            'fermenter_volume': forms.TextInput(attrs={'placeholder': 'Fermenter Volume'}),
+            'yeast': forms.TextInput(attrs={'placeholder': 'Yeast'}),
+            'link': forms.TextInput(attrs={'placeholder': 'URL'}),
+            'malt': forms.TextInput(attrs={'placeholder': 'Malt'}),
+            'amount': forms.TextInput(attrs={'placeholder': 'Amount'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = True
+        self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            Row(
+                Column('name', css_class='form-group col-md-6'),
+                Column('type', css_class='form-group col-md-3'),
+                Column('link', css_class='form-group col-md-3'),
+                css_class='form-row'
+                ),
+            Row(
+                Column('batch_volume', css_class='form-group col-md-2'),
+                Column('mash_time', css_class='form-group col-md-2'),
+                Column('mash_temp', css_class='form-group col-md-2'),
+                Column('boil_time', css_class='form-group col-md-2'),
+                Column('boil_volume', css_class='form-group col-md-2'),
+                Column('fermenter_volume', css_class='form-group col-md-2'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('og', css_class='form-group col-md-2'),
+                Column('fg', css_class='form-group col-md-2'),
+                Column('abv', css_class='form-group col-md-2'),
+                Column('ibu', css_class='form-group col-md-2'),
+                Column('efficiency', css_class='form-group col-md-2'),
+                Column('yeast', css_class='form-group col-md-2'),
+                css_class='form-row'
+                ),
+            Row(
+                Column(Formset_malt('malt'), css_class='form-group col-md-6'),
+                Column(Formset_hop('hop'), css_class='form-group col-md-6'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('note', css_class='form-group col-md-12'),
+                css_class='form-row'
+                ),
+
+            Submit('submit', 'Submit', css_class = 'btn-primary')
+        )
+
+class MaltForm(ModelForm):
+    class Meta():
+        model = Malt
+        exclude = ()
+        labels = {'malt': '', 'amount': ''}
+        widgets = {
+            'malt': forms.TextInput(attrs={'placeholder': 'Malt'}),
+            'amount': forms.TextInput(attrs={'placeholder': 'Amount'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        formtag_prefix = re.sub('-[0-9]+$', '', kwargs.get('prefix', ''))
+
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+                Row(
+                    Column('malt', css_class='form-group col-md-5'),
+                    Column('amount', css_class='form-group col-md-5'),
+                    Field('DELETE'),
+                    css_class='formset_row-{}'.format(formtag_prefix)
+                )
+            )
+
+MaltFormSet = inlineformset_factory(Recipes, Malt, form = MaltForm, extra = 1)
+
+class HopForm(ModelForm):
+    class Meta():
+        model = Hop
+        exclude = ()
+        labels = {'hop': '', 'amount': ''}
+        widgets = {
+            'hop': forms.TextInput(attrs={'placeholder': 'Hop'}),
+            'amount': forms.TextInput(attrs={'placeholder': 'Amount'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        formtag_prefix = re.sub('-[0-9]+$', '', kwargs.get('prefix', ''))
+
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+                Row(
+                    Column('hop', css_class='form-group col-md-5'),
+                    Column('amount', css_class='form-group col-md-5'),
+                    Field('DELETE'),
+                    css_class='formset_row-{}'.format(formtag_prefix)
+                )
+            )
+
+HopFormSet = inlineformset_factory(Recipes, Hop, form = HopForm, extra = 1)
 
 class BryggeloggForm(forms.ModelForm):
-    """
-    def _meskevann(self):
-        return (self.malt_1 + self.malt_2 + self.malt_3 + self.malt_4 + self.malt_5) * 3
 
-    total = property(_meskevann)
-    """
     class Meta():
         model = Bryggelogg
         labels = {'malt_1': 'Malt', 'malt_2': '', 'malt_3': '', 'malt_4': '', 'malt_5': '',
@@ -41,7 +175,8 @@ class BryggeloggForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.helper = FormHelper
+        self.helper = FormHelper()
+        self.helper.form_tag = True
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
             Row(
@@ -109,30 +244,3 @@ class BryggeloggForm(forms.ModelForm):
             ),
             Submit('submit', 'Submit', css_class = 'btn-primary')
         )
-
-        def clean(self):
-            all_clean_data = super().clean()
-            a = all_clean_data['malt_1']
-            b = all_clean_data['malt_2']
-            c = all_clean_data['malt_3']
-            d = all_clean_data['malt_4']
-            e = all_clean_data['malt_5']
-            self.meskevann = (a + b + c + d + e) * 3
-            return self.meskevann
-
-"""
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.helper = FormHelper
-        self.helper.form_method = 'post'
-        self.helper.layout = Layout(
-            Row(
-                Column('bryggnr', 'dato', 'navn', css_class='form-group col-md-6'),
-                Column('malt_1', 'malt_2', 'malt_3', 'malt_4', 'malt_5', 'malt_6', 'malt_7', 'malt_8', 'malt_9', 'malt_10', css_class='form-group col-md-3'),
-                Column('mengde_1', 'mengde_2', 'mengde_3', 'mengde_4', 'mengde_5', 'mengde_6', 'mengde_7', 'mengde_8', 'mengde_9', 'mengde_10', css_class='form-group col-md-3'),
-                css_class='form-row'
-                ),
-            Submit('submit', 'Submit', css_class = 'btn-primary')
-        )
-"""

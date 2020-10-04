@@ -21,8 +21,7 @@ from Bryggelogg import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('Bryggelogg/', include('Bryggelogg.urls')),
-    path('', views.index_view, name='index'),
-    path('api/data/', views.get_data, name='get-data'),
+    path('', views.index_view.as_view(), name='index'),
     path('chart/', views.chart_view, name='chart'),
     path('api/chart/data/', views.ChartData.as_view(), name='chart-data'),
 ]
