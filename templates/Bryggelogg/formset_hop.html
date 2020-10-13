@@ -21,8 +21,11 @@
   <script src="{% static 'js/jquery.formset.js' %}"></script>
   <script type="text/javascript">
       $('.formset_row-{{ formset.prefix }}').formset({
-          addText: 'Add Hop',
-          deleteText: 'Remove',
-          prefix: '{{ formset.prefix }}',
+        addText: 'Add Malt',
+        deleteText: 'Remove',
+        prefix: '{{ formset.prefix }}',
+        deleteCssClass: 'btn btn-danger btn-md delButton',
+        addCssClass: 'btn btn-info btn-md',
+        deleteContainerClass: null,
       });
   </script>

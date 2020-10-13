@@ -105,9 +105,9 @@ class MaltForm(ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
                 Row(
-                    Column('malt', css_class='form-group col-md-5'),
-                    Column('amount', css_class='form-group col-md-5'),
-                    Field('DELETE'),
+                    Column('malt', css_class='col-md-5'),
+                    Column('amount', css_class='col-md-5'),
+                    Div('DELETE'),
                     css_class='formset_row-{}'.format(formtag_prefix)
                 )
             )
@@ -133,8 +133,8 @@ class HopForm(ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
                 Row(
-                    Column('hop', css_class='form-group col-md-5'),
-                    Column('amount', css_class='form-group col-md-5'),
+                    Column('hop', css_class='col-md-5'),
+                    Column('amount', css_class='col-md-5'),
                     Field('DELETE'),
                     css_class='formset_row-{}'.format(formtag_prefix)
                 )

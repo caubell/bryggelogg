@@ -9,7 +9,7 @@ class Recipes(models.Model):
     og = models.FloatField(blank = True, null = True)
     fg = models.FloatField(blank = True, null = True,)
     abv = models.FloatField(blank = True, null = True,)
-    ibu = models.FloatField(blank = True, null = True,)
+    ibu = models.FloatField(blank = True, null = True, default = '')
     efficiency = models.FloatField(blank = True, null = True,)
     batch_volume = models.FloatField(blank = True, null = True)
     mash_time = models.IntegerField(blank = True, null = True)
@@ -37,7 +37,7 @@ class Malt(models.Model):
 
 class Hop(models.Model):
     recipe = models.ForeignKey(Recipes, on_delete=models.PROTECT)
-    hop = models.CharField(max_length = 264)
+    hop = models.CharField(max_length = 264, default = '')
     amount = models.IntegerField()
 
     def __str__(self):

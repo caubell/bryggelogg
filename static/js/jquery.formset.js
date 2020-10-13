@@ -248,7 +248,7 @@
      $.fn.formset.defaults = {
          prefix: 'form',                  // The form prefix for your django formset
          formTemplate: null,              // The jQuery selection cloned to generate new form instances
-         addText: 'Add Malt',          // Text for the add link
+         addText: 'Add Malt',             // Text for the add link
          deleteText: 'Remove',            // Text for the delete link
          addContainerClass: null,         // Container CSS class for the add link
          deleteContainerClass: null,      // Container CSS class for the delete link
@@ -259,6 +259,6 @@
          keepFieldValues: '',             // jQuery selector for fields whose values should be kept when the form is cloned
          added: null,                     // Function called each time a new form is added
          removed: null,                   // Function called each time a form is deleted
-         hideLastAddForm: false           // When set to true, hide last empty add form (becomes visible when clicking on add button)
+         hideLastAddForm: false,          // When set to true, hide last empty add form (becomes visible when clicking on add button)
      };
  })(jQuery);

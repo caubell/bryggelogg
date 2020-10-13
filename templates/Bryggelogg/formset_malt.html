@@ -1,9 +1,13 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
+<!-- CSS -->
+<link rel="stylesheet" href="{% static "css/bryggelogg.css" %}"/>
+
   <style type="text/css">
     .delete-row {
       align-self: flex-start;
+      background-color: red;
     }
   </style>
 
@@ -24,5 +28,9 @@
           addText: 'Add Malt',
           deleteText: 'Remove',
           prefix: '{{ formset.prefix }}',
+          deleteCssClass: 'btn btn-danger btn-md delButton',
+          addCssClass: 'btn btn-info btn-md',
+          deleteContainerClass: null,
+
       });
   </script>
