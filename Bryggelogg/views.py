@@ -1,10 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from Bryggelogg.models import Bryggelogg
-from Bryggelogg.forms import BryggeloggForm
+from django.views.generic import CreateView, TemplateView, DetailView, FormView, ListView, View
+from Bryggelogg.models import Bryggelogg, Recipes, Malt, Hop
+from Bryggelogg.forms import BryggeloggForm, RecipesForm, MaltFormSet, HopFormSet
 from django.contrib.auth import get_user_model
 from Bryggelogg.functions import avg_liter
 import pandas as pd
+
+# For add/remove specific functionality in the formset
+from django.db import transaction
+from django.urls import reverse_lazy
 
 # Login specific imports
 from django.contrib.auth import authenticate, login, logout
@@ -18,22 +23,55 @@ from rest_framework.response import Response
 
 user = get_user_model()
 
-# Create your views here.
-def index_view(request):
-    return render(request, 'Bryggelogg/index.html', {})
 
-def bryggelogg_view(request):
-    form = BryggeloggForm()
+class RecipesCreateView(CreateView):
+    model = Recipes
+    form_class = RecipesForm
+    success_url = reverse_lazy('index')
 
-    if request.method == 'POST':
-        form = BryggeloggForm(request.POST)
+    def get_context_data(self, **kwargs):
+        data = super(RecipesCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['malt'] = MaltFormSet(self.request.POST)
+            data['hop'] = HopFormSet(self.request.POST)
+        else:
+            data['malt'] = MaltFormSet()
+            data['hop'] = HopFormSet()
+        return data
 
-        if form.is_valid():
-            form.save()
+    def form_valid(self, form):
+        context = self.get_context_data()
+        malt = context['malt']
+        hop = context['hop']
+        with transaction.atomic():
+            self.object = form.save()
 
-    return render(request, 'Bryggelogg/bryggelogg.html', {'form': form})
+            if malt.is_valid():
+                malt.instance = self.object
+                malt.save()
 
-class dashboard_view(APIView):
+            if hop.is_valid():
+                hop.instance = self.object
+                hop.save()
+        return super(RecipesCreateView, self).form_valid(form)
+
+class index_view(TemplateView):
+    template_name = 'Bryggelogg/index.html'
+
+class bryggelogg_view(CreateView):
+    form_class = BryggeloggForm
+    model = Bryggelogg
+
+class bryggeloggListView(ListView):
+    context_object_name = "bryggelogg_list"
+    model = Bryggelogg
+
+class bryggeloggDetailView(DetailView):
+    context_object_name = "bryggelogg_detail"
+    model = Bryggelogg
+    template_name = 'Bryggelogg/bryggelogg_detail.html'
+
+class dashboard_view(TemplateView):
     authentication_classes = []
     permission_classes = []
 
@@ -56,17 +94,18 @@ class dashboard_view(APIView):
         }
         return render(request, 'Bryggelogg/dashboard.html', context = context)
 
-def chart_view(request):
-    return render(request, 'Bryggelogg/chart.html', {})
+class chart_view(View):
+    def get(self,request):
+        return render(request, 'Bryggelogg/chart.html', {})
 
-def get_data(request, *args, **kwargs):
-    data = {
-    'sales': 100,
-    'customers': 10,
-    }
-    return JsonResponse(data)
+    def get_data(request, *args, **kwargs):
+        data = {
+        'sales': 100,
+        'customers': 10,
+        }
+        return JsonResponse(data)
 
-class ChartData(APIView):
+class ChartData(TemplateView):
     authentication_classes = []
     permission_classes = []
 

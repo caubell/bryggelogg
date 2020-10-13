@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+  <style type="text/css">
+    .delete-row {
+      align-self: flex-start;
+    }
+  </style>
+
+  {{ formset.management_form|crispy }}
+
+  {% for form in formset.forms %}
+    {% for hidden in form.hidden_fields %}
+      {{ hidden|as_crispy_field }}
+    {% endfor %}
+    {% crispy form %}
+  {% endfor %}
+
+  <br>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="{% static 'js/jquery.formset.js' %}"></script>
+  <script type="text/javascript">
+      $('.formset_row-{{ formset.prefix }}').formset({
+        addText: 'Add Malt',
+        deleteText: 'Remove',
+        prefix: '{{ formset.prefix }}',
+        deleteCssClass: 'btn btn-danger btn-md delButton',
+        addCssClass: 'btn btn-info btn-md',
+        deleteContainerClass: null,
+      });
+  </script>

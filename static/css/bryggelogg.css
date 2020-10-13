@@ -14,7 +14,7 @@
     display: none;
 }
 
-.dashboar_container {
+.dashboard_container {
   overflow: auto;
 }
 
@@ -36,7 +36,31 @@
   float: right;
 }
 
-#nt1, #nt2, #nt3, #nt4 {
-  height: 150px;
-  background: gray;
+.nt {
+  height: 143px;
+  background: white;
+  position: relative;
+  box-sizing: border-box;
 }
+
+.midtstilt {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.midtstilt_horisontalt {
+  text-align: center;
+  padding-top: 80px;
+}
+
+.delButton {
+  height: 38px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-left: 11.5px;
+  padding-right: 11.5px;
+ }
+[class='custom-control custom-checkbox'] { display: none }
