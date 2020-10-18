@@ -118,10 +118,11 @@ class HopForm(ModelForm):
     class Meta():
         model = Hop
         exclude = ()
-        labels = {'hop': '', 'amount': ''}
+        labels = {'hop': '', 'amount': '', 'boil_time': ''}
         widgets = {
             'hop': forms.TextInput(attrs={'placeholder': 'Hop'}),
             'amount': forms.TextInput(attrs={'placeholder': 'Amount'}),
+            'boil_time': forms.TextInput(attrs={'placeholder': 'Minute'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -133,8 +134,9 @@ class HopForm(ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
                 Row(
-                    Column('hop', css_class='col-md-5'),
-                    Column('amount', css_class='col-md-5'),
+                    Column('hop', css_class='col-md-4'),
+                    Column('amount', css_class='col-md-3'),
+                    Column('boil_time', css_class='col-md-3'),
                     Field('DELETE'),
                     css_class='formset_row-{}'.format(formtag_prefix)
                 )

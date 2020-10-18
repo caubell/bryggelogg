@@ -1,0 +1,24 @@
+{% extends 'Bryggelogg/base.html' %}
+{% load static %}
+
+{% block css_block %}
+  <link rel="stylesheet" href="{% static "css/recipes_detail.css" %}">
+{% endblock %}
+
+{% block body_block %}
+  <br>
+  <form method="post">
+      {% csrf_token %}
+      <h4>Are you sure you want to delete: <strong>{{ recipes.name }}</strong>?</h4>
+      <br>
+      <input  class="btn btn-danger" type="submit" value="Yes, delete recipe" />
+      <a class = 'btn btn-outline-secondary btn-md' onclick="goBack()">Cancel</a>
+  </form>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+{% endblock %}

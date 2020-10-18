@@ -25,7 +25,7 @@ class Recipes(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('Bryggelogg:detail', kwargs = {'pk': self.pk})
+        return reverse('Bryggelogg:recipes-detail', kwargs = {'pk': self.pk})
 
 class Malt(models.Model):
     recipe = models.ForeignKey(Recipes, on_delete=models.PROTECT)
@@ -39,6 +39,7 @@ class Hop(models.Model):
     recipe = models.ForeignKey(Recipes, on_delete=models.PROTECT)
     hop = models.CharField(max_length = 264, default = '')
     amount = models.IntegerField()
+    boil_time = models.IntegerField(default = '')
 
     def __str__(self):
         return self.hop

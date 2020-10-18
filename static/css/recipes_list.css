@@ -1,0 +1,12 @@
+a, a:hover {
+  color: #030e07;
+}
+
+.table_cell_style {
+  background: #82846D;
+  color: white;
+}
+
+.tablehead_border {
+  border-bottom: 1px solid #dee2e6 !important;
+}

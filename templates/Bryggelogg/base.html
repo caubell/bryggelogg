@@ -14,6 +14,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="{% static "css/bryggelogg.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/navbar.css" %}"/>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
@@ -24,17 +25,22 @@
     {% block title_block %}
       <title></title>
     {% endblock %}
+
+    {% block css_block %}
+    {% endblock %}
+
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class="navbar navbar-expand-lg">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
             {% with request.resolver_match.url_name as url_name %}
             <a class="nav-item nav-link {% if url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Hjem <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link {% if url_name == 'bryggelogg' %}active{% endif %}" href="{% url 'Bryggelogg:bryggelogg' %}">Loggfør brygging<span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'Bryggelogg:dashboard' %}">Dashboard<span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'Bryggelogg:recipes-create' %}">Create recipe<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link {% if url_name == 'recipes-create' %}active{% endif %}" href="{% url 'Bryggelogg:recipes-create' %}">Create recipe<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link {% if url_name == 'recipes-list' %}active{% endif %}" href="{% url 'Bryggelogg:recipes-list' %}">Show Recipes<span class="sr-only">(current)</span></a>
+            <!-- <a class="nav-item nav-link {% if url_name == 'bryggelogg' %}active{% endif %}" href="{% url 'Bryggelogg:bryggelogg' %}">Loggfør brygging<span class="sr-only">(current)</span></a> -->
+            <!-- <a class="nav-item nav-link {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'Bryggelogg:dashboard' %}">Dashboard<span class="sr-only">(current)</span></a> -->
             {% endwith %}
           </div>
         </div>

@@ -1,0 +1,175 @@
+{% extends 'Bryggelogg/base.html' %}
+{% load static %}
+
+{% block css_block %}
+  <link rel="stylesheet" href="{% static "css/recipes_detail.css" %}">
+{% endblock %}
+
+{% block body_block %}
+  <br>
+  <div class="tablecontainer col-md-6 pr-2">
+    <table class = 'table border'>
+      <tbody>
+
+        <tr>
+          <td class = 'table_cell_style'><b>Name:</b></td>
+          <td>{{recipes_detail.name}}</td>
+        </tr>
+
+        <tr>
+          <td class = 'table_cell_style no_border'><b>Date Created:</b></td>
+          <td>{{recipes_detail.date}}</td>
+        </tr>
+
+        <tr>
+          <td class = 'table_cell_style no_border'><b>Type:</b></td>
+          <td>{{recipes_detail.type}}</td>
+        </tr>
+
+        <tr>
+          <td class = 'table_cell_style no_border'><b>Source:</b></td>
+          <td>{{recipes_detail.link}}</td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class='tablecontainer col-md-6 pl-2'>
+      <table id="table_2" class = 'table border'>
+        <tbody>
+
+          <tr>
+            <td class = 'table_cell_style'><b>Batch Size:</b></td>
+            <td>{{recipes_detail.batch_volume}}</td>
+          </tr>
+
+          <tr>
+            <td class = 'table_cell_style no_border'><b>Boil Volume:</b></td>
+            <td>{{recipes_detail.boil_volume}}</td>
+          </tr>
+
+          <tr>
+            <td class = 'table_cell_style no_border'><b>Fermenter Volume:</b></td>
+            <td>{{recipes_detail.fermenter_volume}}</td>
+          </tr>
+
+          <tr>
+            <td class = 'table_cell_style no_border'><b>Yeast:</b></td>
+            <td>{{recipes_detail.yeast}}</td>
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecontainer col-md-12 mt-3">
+      <table class = 'table border'>
+        <tbody>
+
+        <tr>
+          <td class = 'table_cell_style'><b>Original Gravity:</b></td>
+          <td class = 'table_cell_style'><b>Final Gravity:</b></td>
+          <td class = 'table_cell_style'><b>Alcohol by Volume:</b></td>
+          <td class = 'table_cell_style'><b>International Bitterness Units:</b></td>
+        </tr>
+
+        <tr>
+
+          <td>{{recipes_detail.og}}</td>
+          <td>{{recipes_detail.fg}}</td>
+          <td>{{recipes_detail.abv}}</td>
+          <td>{{recipes_detail.ibu}}</td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecontainer col-md-12 mt-3">
+      <table class = 'table border'>
+        <tbody>
+
+        <tr class = 'table_cell_style'>
+          <td><b>Efficiency:</b></td>
+          <td><b>Mashing Time (min):</b></td>
+          <td><b>Mash Temperature (min):</b></td>
+          <td><b>Boiling Time (min):</b></td>
+        </tr>
+
+        <tr>
+          <td>{{recipes_detail.efficiency}}</td>
+          <td>{{recipes_detail.mash_time}}</td>
+          <td>{{recipes_detail.mash_temp}}</td>
+          <td>{{recipes_detail.boil_time}}</td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecontainer col-md-6 pr-2">
+      <table class = 'table border'>
+        <tbody>
+          <tr class = 'table_cell_style'>
+            <td><b>Malt:</b></td>
+            <td><b>Amount:</b></td>
+          </tr>
+
+          {% for malt in object.malt_set.all %}
+
+          <tr>
+            <td>{{ malt.malt }}</td>
+            <td>{{ malt.amount }}</td>
+          </tr>
+
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecontainer col-md-6 pl-2">
+      <table id="table_1" class = 'table border'>
+        <tbody>
+          <tr class = 'table_cell_style'>
+            <td><b>Hop:</b></td>
+            <td><b>Amount:</b></td>
+            <td><b>Minute:</b></td>
+          </tr>
+
+          {% for hop in object.hop_set.all %}
+
+          <tr>
+            <td>{{ hop.hop }}</td>
+            <td>{{ hop.amount }}</td>
+            <td>{{ hop.boil_time }}</td>
+          </tr>
+
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecontainer col-md-12">
+      <table id="table_1" class = 'table border'>
+        <tbody>
+
+          <tr>
+            <td class = 'table_cell_style'><b>Notes:</b></td>
+          </tr>
+          <tr>
+            <td>{{recipes_detail.note}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+<a class = 'btn btn-info btn-md' href="{% url 'Bryggelogg:recipes-update' pk=recipes_detail.pk %}">Update</a>
+<a class = 'btn btn-danger btn-md' href="{% url 'Bryggelogg:recipes-delete' pk=recipes_detail.pk %}">Delete</a>
+
+
+{% endblock %}

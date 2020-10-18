@@ -1,0 +1,27 @@
+{% extends 'Bryggelogg/base.html' %}
+{% load static %}
+
+{% block css_block %}
+  <link rel="stylesheet" href="{% static "css/recipes_list.css" %}">
+{% endblock %}
+
+{% block body_block %}
+  <br>
+
+  <table class = 'table table-hover'>
+    <tbody>
+      <thead class = 'table_cell_style'>
+        <th class = 'tablehead_border'>Your Recipes:</th>
+        <th class = 'tablehead_border'>Date Created:</th>
+      </thead>
+      {% for brygg in recipes_list %}
+      <tr>
+        <td><a href="{{brygg.id}}">{{brygg.name}}</a></td>
+        <td>{{brygg.date}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+
+{% endblock %}

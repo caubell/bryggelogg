@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from django.views.generic import CreateView, TemplateView, DetailView, FormView, ListView, View
+from django.views.generic import CreateView, TemplateView, DetailView, FormView, ListView, View, UpdateView, DeleteView
 from Bryggelogg.models import Bryggelogg, Recipes, Malt, Hop
 from Bryggelogg.forms import BryggeloggForm, RecipesForm, MaltFormSet, HopFormSet
 from django.contrib.auth import get_user_model
@@ -27,7 +27,7 @@ user = get_user_model()
 class RecipesCreateView(CreateView):
     model = Recipes
     form_class = RecipesForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('Bryggelogg:recipes-list')
 
     def get_context_data(self, **kwargs):
         data = super(RecipesCreateView, self).get_context_data(**kwargs)
@@ -54,6 +54,53 @@ class RecipesCreateView(CreateView):
                 hop.instance = self.object
                 hop.save()
         return super(RecipesCreateView, self).form_valid(form)
+
+class RecipesListView(ListView):
+    context_object_name = "recipes_list"
+    model = Recipes
+
+class RecipesDetailView(DetailView):
+    context_object_name = 'recipes_detail'
+    model = Recipes
+    template_name = 'Bryggelogg/recipes_detail.html'
+
+class RecipesUpdateView(UpdateView):
+    model = Recipes
+    form_class = RecipesForm
+    template_name = 'Bryggelogg/recipes_form.html'
+
+    def get_context_data(self, **kwargs):
+        data = super(RecipesUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['malt'] = MaltFormSet(self.request.POST, instance=self.object)
+            data['hop'] = HopFormSet(self.request.POST, instance=self.object)
+        else:
+            data['malt'] = MaltFormSet(instance=self.object)
+            data['hop'] = HopFormSet(instance=self.object)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        malt = context['malt']
+        hop = context['hop']
+        with transaction.atomic():
+            self.object = form.save()
+            if malt.is_valid():
+                malt.instance = self.object
+                malt.save()
+
+            if hop.is_valid():
+                hop.instance = self.object
+                hop.save()
+        return super(RecipesUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('Bryggelogg:recipes-detail', kwargs={'pk': self.object.pk})
+
+class RecipesDeleteView(DeleteView):
+    model = Recipes
+    template_name = 'Bryggelogg/recipes_confirm_delete.html'
+    success_url = reverse_lazy('Bryggelogg:recipes-list')
 
 class index_view(TemplateView):
     template_name = 'Bryggelogg/index.html'

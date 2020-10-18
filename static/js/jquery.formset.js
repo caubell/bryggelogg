@@ -4,6 +4,8 @@
  * @requires jQuery 1.2.6 or later
  *
  * Tutorial: https://medium.com/@adandan01/django-inline-formsets-example-mybook-420cc4b6225d.
+ * Tutorial: https://dev.to/zxenia/django-inline-formsets-with-class-based-views-and-crispy-forms-14o6.
+ * Alternative tutorial: https://medium.com/all-about-django/adding-forms-dynamically-to-a-django-formset-375f1090c2b0.
  *
  * Copyright (c) 2009, Stanislaus Madueke
  * All rights reserved.
